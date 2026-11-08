@@ -11,7 +11,6 @@ import statistics
 import tempfile
 import time
 from collections import Counter
-from dataclasses import asdict
 from pathlib import Path
 
 import numpy as np
@@ -236,6 +235,10 @@ def run_study(output: Path, *, seed: int, replicates: int, development: int,
     }
     if paired_full["input_tokens"]:
         summary["paired_token_reduction"] = 1 - paired_selected["input_tokens"] / paired_full["input_tokens"]
+    if summary["missed_by_component"].get("generator_supervisor"):
+        from .coverage import run_coverage
+
+        summary["coverage_followup"] = run_coverage(output, seed, replicates)
     with (output / "predictions.jsonl").open("w", encoding="utf-8") as file:
         for row in predictions:
             file.write(json.dumps(row, separators=(",", ":")) + "\n")

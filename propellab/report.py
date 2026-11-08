@@ -186,10 +186,23 @@ def write_report(output: Path, summary: dict, runs: list, references: dict,
                              if example["ranking"] else "The model abstained.",
                              f"Evidence IDs were {', '.join(example['evidence'])}. {reason}", ""])
         sections.extend(["![Signals and selected timestamps](example.png)", ""])
+    if followup := summary.get("coverage_followup"):
+        count = followup["paired_scenarios"]
+        original = followup["conditions"]["original"]["faults_detected"]
+        late = followup["conditions"]["late"]["faults_detected"]
+        sections.extend([
+            "## Improving the generator test", "",
+            f"Moving the low-charge stimulus later increased detection from **{original}/{count}** to "
+            f"**{late}/{count}** on the same scenario seeds. "
+            "This follow-up keeps the original diagnosis benchmark intact.", "",
+            "![Generator test coverage before and after](coverage.png)", "",
+            "[Read the follow-up](COVERAGE.md)", "",
+        ])
     sections.extend([
         "## Scope", "",
         "The benchmark uses simplified powertrain models, original requirements, and single software faults. "
         "The LLM sample is a pilot drawn from held-out scenario seeds. Results describe this simulator. "
+        "The full arm ran before the selected arm for each case. Timing can reflect runtime caching. "
         "A physical board run is still needed to measure hardware-in-the-loop agreement and timing.", "",
         "[Browse the dashboard](dashboard.html) · [Metrics](summary.json) · [Runs](runs.csv) · "
         "[Predictions](predictions.jsonl) · [Telemetry](telemetry.jsonl.gz) · "
