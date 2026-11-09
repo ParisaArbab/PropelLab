@@ -1,0 +1,14 @@
+{
+  "seed": 42,
+  "paired_scenarios": 15,
+  "conditions": {
+    "original": {
+      "faults_detected": 7,
+      "healthy_passes": 15
+    },
+    "late": {
+      "faults_detected": 15,
+      "healthy_passes": 15
+    }
+  }
+}
