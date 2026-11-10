@@ -1,0 +1,9 @@
+{
+  "seed": 42,
+  "replicates": 5,
+  "development_replicates": 2,
+  "evidence_budget": 18,
+  "requested_llm_cases": 15,
+  "llm_model": "gemma-4-e4b-it-q4_0",
+  "model_source": "https://huggingface.co/ggml-org/gemma-4-E4B-it-GGUF/tree/27cd6836f8e2a6e5e6b57ea0e77fa72490706985"
+}

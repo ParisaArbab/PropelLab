@@ -10,6 +10,7 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
+from matplotlib.ticker import FuncFormatter, MultipleLocator
 
 from .evidence import CHANNELS, paired_deltas, selected_ticks
 
@@ -20,28 +21,38 @@ LABELS = {
 NAVY = "#112640"
 BLUE = "#346cb0"
 TEAL = "#0f836f"
+SIGNAL_LABELS = {
+    "req": "Smoothed request", "energy": "Energy estimate", "temp_flag": "Temperature flag",
+    "cap": "Torque limit", "cmd": "Torque command", "actual": "Measured torque",
+    "diag": "Diagnostic code", "gen": "Generator status",
+}
 
 
 def _comparison(output: Path, summary: dict) -> None:
     methods = summary["matched_subset"] or summary["methods"]
     if not methods:
         return
-    fig, (score_ax, token_ax) = plt.subplots(1, 2, figsize=(11, 4.3), layout="constrained")
+    fig, (score_ax, token_ax) = plt.subplots(1, 2, figsize=(11, 4.7), layout="constrained")
     positions = np.arange(len(methods))
     top1 = [100 * row["top1"] for row in methods.values()]
     top3 = [100 * row["top3"] for row in methods.values()]
-    score_ax.barh(positions - 0.15, top1, height=0.28, color=BLUE, label="Top 1")
-    score_ax.barh(positions + 0.15, top3, height=0.28, color=TEAL, label="Top 3")
+    first = score_ax.barh(positions - 0.15, top1, height=0.28, color=BLUE, label="Top 1")
+    first_three = score_ax.barh(positions + 0.15, top3, height=0.28, color=TEAL, label="Top 3")
+    for bars, values in ((first, top1), (first_three, top3)):
+        score_ax.bar_label(bars, labels=[f"{value:.0f}%" for value in values], padding=3, fontsize=8)
     score_ax.set(yticks=positions, yticklabels=[LABELS[arm] for arm in methods],
                  xlim=(0, 110), xlabel="Correct component (%)", title="Diagnosis accuracy")
     score_ax.invert_yaxis()
-    score_ax.legend(loc="lower right", frameon=False)
+    score_ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.19), ncols=2, frameon=False)
     token_totals = summary["paired_input_tokens"]
     if summary["successful_llm_pairs"]:
         tokens = [token_totals["full"], token_totals["selected"]]
         bars = token_ax.barh(["Full telemetry", "Selected telemetry"], tokens, color=[BLUE, TEAL], height=0.5)
         token_ax.invert_yaxis()
         token_ax.set_xlim(0, max(tokens) * 1.24)
+        if max(tokens) >= 10000:
+            token_ax.xaxis.set_major_locator(MultipleLocator(10000))
+            token_ax.xaxis.set_major_formatter(FuncFormatter(lambda value, _: f"{value / 1000:.0f}k"))
         token_ax.bar_label(bars, labels=[f"{value:,}" for value in tokens], padding=4)
         token_ax.set(xlabel="Actual input tokens", title=f"Same {summary['successful_llm_pairs']} model pairs")
     else:
@@ -62,17 +73,20 @@ def _example_plot(output: Path, run, reference, budget: int) -> None:
     retained = selected_ticks(deltas.tolist(), run, budget)
     peak = np.max(np.abs(deltas), axis=0) / np.array([channel[3] for channel in CHANNELS])
     channels = np.argsort(-peak, kind="stable")[:3]
+    first_failure = min(check.failing_ticks[0] for check in run.checks if check.failing_ticks)
     fig, axes = plt.subplots(3, 1, figsize=(10, 6.2), sharex=True, layout="constrained")
     for axis, index in zip(axes, channels, strict=True):
         axis.axhline(0, color="#c6cdd7", lw=1)
+        axis.axvline(first_failure, color="#657588", linestyle="--", lw=1)
         axis.plot(deltas[:, index], color=BLUE, lw=1.7)
         axis.scatter(retained, deltas[retained, index], s=24, color=TEAL, zorder=3)
-        axis.set_ylabel(CHANNELS[index][1].replace("_", " "))
+        axis.set_ylabel(SIGNAL_LABELS[CHANNELS[index][1]])
         axis.spines[["top", "right"]].set_visible(False)
         axis.grid(axis="x", alpha=0.16)
     axes[-1].set_xlabel("Test time (seconds)")
-    axes[0].set_title("Green dots show telemetry sent to the model. Values are changes from the healthy run.",
+    axes[0].set_title("Green dots mark selected rows. The dashed line marks the first failed check.",
                       fontsize=10, loc="left")
+    fig.supylabel("Change from the healthy run", fontsize=10)
     fig.suptitle(f"Evidence retained for {run.case.id} · {run.case.scenario.platform}",
                  fontsize=14, fontweight="bold", color=NAVY)
     fig.savefig(output / "example.png", dpi=170, facecolor="white")

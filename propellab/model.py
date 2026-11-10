@@ -7,6 +7,7 @@ import json
 import os
 import time
 from dataclasses import dataclass
+from http.client import HTTPException
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 
@@ -85,7 +86,7 @@ class LanguageModel:
             except HTTPError as exc:
                 if exc.code not in {429, 500, 502, 503, 504} or attempt == 2:
                     raise RuntimeError(f"Model endpoint returned HTTP {exc.code}") from exc
-            except (URLError, TimeoutError) as exc:
+            except (URLError, TimeoutError, HTTPException, ConnectionError) as exc:
                 if attempt == 2:
                     raise RuntimeError(f"Model endpoint unavailable: {exc}") from exc
             time.sleep(1 + attempt)

@@ -94,7 +94,16 @@ def metrics(rows: list[dict]) -> dict:
     }
 
 
-def _verify_plan(output: Path, requirements: list[dict], model: LanguageModel | None) -> dict:
+def _verify_plan(output: Path, requirements: list[dict], model: LanguageModel | None,
+                 reuse_plan: bool) -> dict:
+    plan_file = output / "verification_plan.json"
+    if reuse_plan and model is not None and plan_file.is_file():
+        previous = json.loads(plan_file.read_text(encoding="utf-8"))
+        requested = {req["id"]: req["text"] for req in requirements}
+        existing = {test["requirement"]: test["pass_criterion"] for test in previous["tests"]}
+        if (previous.get("source") == "language_model" and previous.get("model") == model.model
+                and existing == requested and len(previous["tests"]) == len(requirements)):
+            return previous
     proposals = []
     metadata = {"source": "requirement_catalog"}
     if model is not None:
@@ -116,7 +125,7 @@ def _verify_plan(output: Path, requirements: list[dict], model: LanguageModel | 
         for req in sorted(requirements, key=lambda item: (item["severity"] != "high", item["id"]))
     ]
     plan = {**metadata, "tests": rows}
-    save_json(output / "verification_plan.json", plan)
+    save_json(plan_file, plan)
     return plan
 
 
@@ -175,8 +184,10 @@ def run_study(output: Path, *, seed: int, replicates: int, development: int,
     config = {"seed": seed, "replicates": replicates, "development_replicates": development,
               "evidence_budget": budget, "requested_llm_cases": model_cases,
               "llm_model": model.model if model else None, "model_source": model_source}
-    save_json(output / "config.json", config)
-    plan = _verify_plan(output, requirements, model)
+    config_file = output / "config.json"
+    reuse_plan = config_file.is_file() and json.loads(config_file.read_text(encoding="utf-8")) == config
+    save_json(config_file, config)
+    plan = _verify_plan(output, requirements, model, reuse_plan)
     cases = test_matrix(seed, replicates, development)
     started = time.monotonic()
     with tempfile.TemporaryDirectory(prefix="propellab-host-") as temporary:

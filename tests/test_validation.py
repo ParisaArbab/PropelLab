@@ -4,7 +4,8 @@ from pathlib import Path
 
 from propellab.controller import build_host, host_link
 from propellab.evidence import evidence_id, payload
-from propellab.simulation import Case, Scenario, load_cycles, load_requirements, simulate, test_matrix
+from propellab.simulation import Case, Scenario, load_cycles, load_requirements, simulate
+from propellab.simulation import test_matrix as build_test_matrix
 
 
 class ValidationTest(unittest.TestCase):
@@ -21,7 +22,7 @@ class ValidationTest(unittest.TestCase):
             return simulate(link, Case(scenario, fault), self.speeds, self.requirements)
 
     def test_matrix_preserves_grouped_split(self):
-        cases = test_matrix(seed=42, replicates=5, development=2)
+        cases = build_test_matrix(seed=42, replicates=5, development=2)
         self.assertEqual(len(cases), 375)
         self.assertEqual(len({case.id for case in cases}), 375)
         self.assertEqual(len({case.scenario.id for case in cases if case.scenario.split == "held_out"}), 27)

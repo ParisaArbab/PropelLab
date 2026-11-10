@@ -1,0 +1,104 @@
+{
+  "source": "language_model",
+  "model": "gemma-4-e4b-it-q4_0",
+  "input_tokens": 532,
+  "output_tokens": 401,
+  "seconds": 44.9012,
+  "prompt_sha256": "57215e738e7badbeedd5195e136232887396b4174bd864d10a81015c1f5d6c91",
+  "tests": [
+    {
+      "test_id": "TEST-01",
+      "requirement": "DVP-01",
+      "description": "During normal thermal operation, delivered normalized torque must stay within 0.10 of the reference request after settling.",
+      "stimulus": "normal demand",
+      "severity": "high",
+      "platforms": [
+        "ICE",
+        "BEV",
+        "REEV"
+      ],
+      "pass_criterion": "During normal thermal operation, delivered normalized torque must stay within 0.10 of the reference request after settling.",
+      "preferred_cycle": "hwfet",
+      "rationale": "The 'hwfet' cycle provides a representative mix of steady-state and transient demands, suitable for testing torque tracking during normal operation across all platforms.",
+      "status": "schema_checked_for_simulation"
+    },
+    {
+      "test_id": "TEST-02",
+      "requirement": "DVP-02",
+      "description": "By the third missing temperature sample, the diagnostic output must report a temperature signal fault.",
+      "stimulus": "temperature dropout",
+      "severity": "high",
+      "platforms": [
+        "ICE",
+        "BEV",
+        "REEV"
+      ],
+      "pass_criterion": "By the third missing temperature sample, the diagnostic output must report a temperature signal fault.",
+      "preferred_cycle": "hwfet",
+      "rationale": "The 'hwfet' cycle provides a continuous stream of data, allowing for the simulation of a temperature signal dropout and subsequent diagnostic reporting.",
+      "status": "schema_checked_for_simulation"
+    },
+    {
+      "test_id": "TEST-03",
+      "requirement": "DVP-03",
+      "description": "After two settling samples above 103 degrees Celsius, delivered normalized torque must stay at or below 0.42.",
+      "stimulus": "overtemperature",
+      "severity": "high",
+      "platforms": [
+        "ICE",
+        "BEV",
+        "REEV"
+      ],
+      "pass_criterion": "After two settling samples above 103 degrees Celsius, delivered normalized torque must stay at or below 0.42.",
+      "preferred_cycle": "hwfet",
+      "rationale": "The 'hwfet' cycle allows for controlled thermal stress simulation, enabling the testing of the torque limitation logic during overheating.",
+      "status": "schema_checked_for_simulation"
+    },
+    {
+      "test_id": "TEST-05",
+      "requirement": "DVP-05",
+      "description": "With available energy continuously below 0.30, the generator must be enabled by the third low-charge sample.",
+      "stimulus": "low charge",
+      "severity": "high",
+      "platforms": [
+        "REEV"
+      ],
+      "pass_criterion": "With available energy continuously below 0.30, the generator must be enabled by the third low-charge sample.",
+      "preferred_cycle": "hwfet",
+      "rationale": "The 'hwfet' cycle is used to simulate low-charge conditions, specifically targeting the REEV platform's generator start logic.",
+      "status": "schema_checked_for_simulation"
+    },
+    {
+      "test_id": "TEST-04",
+      "requirement": "DVP-04",
+      "description": "After initialization, the energy estimate must stay within 0.06 of the simulator reference.",
+      "stimulus": "energy depletion",
+      "severity": "medium",
+      "platforms": [
+        "ICE",
+        "BEV",
+        "REEV"
+      ],
+      "pass_criterion": "After initialization, the energy estimate must stay within 0.06 of the simulator reference.",
+      "preferred_cycle": "hwfet",
+      "rationale": "The 'hwfet' cycle provides a defined operational envelope, allowing for the measurement and validation of the energy estimation accuracy after initialization.",
+      "status": "schema_checked_for_simulation"
+    },
+    {
+      "test_id": "TEST-06",
+      "requirement": "DVP-06",
+      "description": "After three consecutive valid cool samples following a temperature dropout, the diagnostic output must show normal status.",
+      "stimulus": "signal recovery",
+      "severity": "medium",
+      "platforms": [
+        "ICE",
+        "BEV",
+        "REEV"
+      ],
+      "pass_criterion": "After three consecutive valid cool samples following a temperature dropout, the diagnostic output must show normal status.",
+      "preferred_cycle": "hwfet",
+      "rationale": "The 'hwfet' cycle provides the necessary data stream to simulate a temperature signal dropout followed by a recovery phase, testing the diagnostic clearing logic.",
+      "status": "schema_checked_for_simulation"
+    }
+  ]
+}

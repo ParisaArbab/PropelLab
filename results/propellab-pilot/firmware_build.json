@@ -1,0 +1,12 @@
+{
+  "target": "Raspberry Pi Pico",
+  "fqbn": "arduino:mbed_rp2040:pico",
+  "core_version": "4.6.0",
+  "compiled": true,
+  "physical_runs": 0,
+  "program_storage_bytes": 106608,
+  "global_memory_bytes": 43244,
+  "firmware_file": "propellab-pico.uf2",
+  "firmware_sha256": "f88b0afbbdc7b92c9016826475d06acee626754bb9a9b26683e608833bf3487f",
+  "controller_source_sha256": "1c855c2ff3e3596da782ab7ec6afea563c17389fdf52ebf107c840b2a2f44700"
+}

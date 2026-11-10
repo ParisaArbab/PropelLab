@@ -1,0 +1,229 @@
+{
+  "seed": 42,
+  "replicates": 5,
+  "development_replicates": 2,
+  "evidence_budget": 18,
+  "requested_llm_cases": 15,
+  "llm_model": "gemma-4-e4b-it-q4_0",
+  "model_source": "https://huggingface.co/ggml-org/gemma-4-E4B-it-GGUF/tree/27cd6836f8e2a6e5e6b57ea0e77fa72490706985",
+  "mode": "sil",
+  "physical_hil_runs": 0,
+  "simulation_seconds": 1.424,
+  "runs": 375,
+  "healthy_runs": 45,
+  "healthy_passes": 45,
+  "seeded_faults": 330,
+  "detected_faults": 322,
+  "missed_by_component": {
+    "generator_supervisor": 8
+  },
+  "development_failures": 130,
+  "held_out_failures": 192,
+  "requirements_exercised": {
+    "DVP-01": 375,
+    "DVP-02": 375,
+    "DVP-03": 375,
+    "DVP-04": 375,
+    "DVP-05": 135,
+    "DVP-06": 375
+  },
+  "llm_sample": [
+    {
+      "id": "case-04a66e7043",
+      "platform": "ICE",
+      "component": "torque_allocator"
+    },
+    {
+      "id": "case-94600911af",
+      "platform": "BEV",
+      "component": "actuator_control"
+    },
+    {
+      "id": "case-aecc5f0125",
+      "platform": "REEV",
+      "component": "request_filter"
+    },
+    {
+      "id": "case-83581d970f",
+      "platform": "ICE",
+      "component": "diagnostic_manager"
+    },
+    {
+      "id": "case-590aad780c",
+      "platform": "BEV",
+      "component": "energy_estimator"
+    },
+    {
+      "id": "case-fa3ef1ea47",
+      "platform": "REEV",
+      "component": "thermal_limiter"
+    },
+    {
+      "id": "case-00b8a08d9f",
+      "platform": "ICE",
+      "component": "temperature_monitor"
+    },
+    {
+      "id": "case-081e8faecc",
+      "platform": "BEV",
+      "component": "request_filter"
+    },
+    {
+      "id": "case-ed2b18243b",
+      "platform": "REEV",
+      "component": "generator_supervisor"
+    },
+    {
+      "id": "case-1cb298e35f",
+      "platform": "ICE",
+      "component": "thermal_limiter"
+    },
+    {
+      "id": "case-46534ba09b",
+      "platform": "BEV",
+      "component": "diagnostic_manager"
+    },
+    {
+      "id": "case-fc9cf23ec6",
+      "platform": "REEV",
+      "component": "actuator_control"
+    },
+    {
+      "id": "case-c0e3887a09",
+      "platform": "ICE",
+      "component": "torque_allocator"
+    },
+    {
+      "id": "case-c6bbce6bd2",
+      "platform": "BEV",
+      "component": "energy_estimator"
+    },
+    {
+      "id": "case-24d8343a04",
+      "platform": "REEV",
+      "component": "temperature_monitor"
+    }
+  ],
+  "successful_llm_pairs": 15,
+  "methods": {
+    "rules": {
+      "cases": 192,
+      "valid": 192,
+      "top1_hits": 111,
+      "top3_hits": 192,
+      "top1": 0.578125,
+      "top3": 1.0,
+      "mrr": 0.765625,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "median_seconds": null
+    },
+    "random_forest": {
+      "cases": 192,
+      "valid": 192,
+      "top1_hits": 191,
+      "top3_hits": 192,
+      "top1": 0.9947916666666666,
+      "top3": 1.0,
+      "mrr": 0.9973958333333334,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "median_seconds": null
+    },
+    "llm_full": {
+      "cases": 15,
+      "valid": 15,
+      "top1_hits": 11,
+      "top3_hits": 15,
+      "top1": 0.7333333333333333,
+      "top3": 1.0,
+      "mrr": 0.8333333333333334,
+      "input_tokens": 35206,
+      "output_tokens": 1742,
+      "median_seconds": 29.7356
+    },
+    "llm_selected": {
+      "cases": 15,
+      "valid": 15,
+      "top1_hits": 11,
+      "top3_hits": 15,
+      "top1": 0.7333333333333333,
+      "top3": 1.0,
+      "mrr": 0.8555555555555556,
+      "input_tokens": 15548,
+      "output_tokens": 1633,
+      "median_seconds": 17.9818
+    }
+  },
+  "matched_subset": {
+    "rules": {
+      "cases": 15,
+      "valid": 15,
+      "top1_hits": 9,
+      "top3_hits": 15,
+      "top1": 0.6,
+      "top3": 1.0,
+      "mrr": 0.7777777777777778,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "median_seconds": null
+    },
+    "random_forest": {
+      "cases": 15,
+      "valid": 15,
+      "top1_hits": 14,
+      "top3_hits": 15,
+      "top1": 0.9333333333333333,
+      "top3": 1.0,
+      "mrr": 0.9666666666666667,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "median_seconds": null
+    },
+    "llm_full": {
+      "cases": 15,
+      "valid": 15,
+      "top1_hits": 11,
+      "top3_hits": 15,
+      "top1": 0.7333333333333333,
+      "top3": 1.0,
+      "mrr": 0.8333333333333334,
+      "input_tokens": 35206,
+      "output_tokens": 1742,
+      "median_seconds": 29.7356
+    },
+    "llm_selected": {
+      "cases": 15,
+      "valid": 15,
+      "top1_hits": 11,
+      "top3_hits": 15,
+      "top1": 0.7333333333333333,
+      "top3": 1.0,
+      "mrr": 0.8555555555555556,
+      "input_tokens": 15548,
+      "output_tokens": 1633,
+      "median_seconds": 17.9818
+    }
+  },
+  "paired_input_tokens": {
+    "full": 35206,
+    "selected": 15548
+  },
+  "plan_source": "language_model",
+  "plan_error": null,
+  "paired_token_reduction": 0.5583707322615463,
+  "coverage_followup": {
+    "seed": 42,
+    "paired_scenarios": 15,
+    "conditions": {
+      "original": {
+        "faults_detected": 7,
+        "healthy_passes": 15
+      },
+      "late": {
+        "faults_detected": 15,
+        "healthy_passes": 15
+      }
+    }
+  }
+}

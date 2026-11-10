@@ -41,7 +41,7 @@ The agent starts and stops the local server for this command.
 ```bash
 python -m propellab study --output local-results/model-study \
   --model gemma-4-e4b-it-q4_0 --model-cases 15 \
-  --llama-server /path/to/llama-server --gguf /path/to/gemma-4-E4B-it-Q4_0.gguf
+  --llama-server /path/to/llama-server --gguf /path/to/gemma-4-E4B-it-Q4_0.gguf --threads 7
 ```
 
 An existing OpenAI-compatible chat server can be used with `--model-url`.
@@ -63,7 +63,8 @@ flowchart TD
 The two LLM conditions receive the same candidate components, requirements,
 and observed-minus-healthy telemetry format. The selector keeps failure anchors,
 early signal changes, and high-deviation rows. Scenario seeds are split before
-training, and the injected fault is reserved for scoring.
+training, and the injected fault is reserved for scoring. Rerunning the same
+configuration in the same output directory resumes from saved model responses.
 
 ## Physical controller bench
 
@@ -83,3 +84,8 @@ It saves requirement verdict agreement, timing misses, and both traces. The
 published experiment measured software-in-the-loop runs. Its requirements and
 controllers are research fixtures, and the report calls out the remaining
 physical bench validation.
+
+The [Pico firmware](results/propellab-pilot/propellab-pico.uf2) compiled
+successfully with the Arduino Mbed RP2040 4.6.0 core.
+[Build details and checksum](results/propellab-pilot/firmware_build.json)
+identify the binary.
