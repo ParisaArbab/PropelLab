@@ -1,0 +1,17 @@
+{
+  "udds": {
+    "url": "https://www.epa.gov/sites/default/files/2015-10/uddscol.txt",
+    "samples": 1370,
+    "source_sha256": "cc9f3edf2f0626976a6552d9f5c88867e1805ed3f321df9ec943a3e0353687b6"
+  },
+  "hwfet": {
+    "url": "https://www.epa.gov/sites/default/files/2015-10/hwycol.txt",
+    "samples": 766,
+    "source_sha256": "e48e278a40312dfe84d31b5f448b601e7046c72487a6a20d3db1d4f85fb3e10a"
+  },
+  "us06": {
+    "url": "https://www.epa.gov/system/files/other-files/2025-03/us06col.txt",
+    "samples": 601,
+    "source_sha256": "84e9d8cc16fcd4ee3c30c3880f333eb25b61352e56f24e453411a7245c725ad2"
+  }
+}

@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "propellab"
+version = "0.1.0"
+description = "Automated propulsion controls validation and evidence-based failure diagnosis"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = ["matplotlib>=3.8,<4", "numpy>=1.26,<3", "scikit-learn>=1.4,<2"]
+
+[project.optional-dependencies]
+bench = ["pyserial>=3.5,<4"]
+
+[project.scripts]
+propellab = "propellab.agent:main"
+
+[tool.setuptools.packages.find]
+include = ["propellab*"]
+
+[tool.setuptools.package-data]
+propellab = ["data/*.json", "data/cycles/*", "bench/*", "host.cpp"]

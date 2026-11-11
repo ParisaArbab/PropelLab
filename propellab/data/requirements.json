@@ -1,0 +1,62 @@
+[
+  {
+    "id": "DVP-01",
+    "title": "Track torque demand",
+    "text": "During normal thermal operation, delivered normalized torque must stay within 0.10 of the reference request after settling.",
+    "platforms": ["ICE", "BEV", "REEV"],
+    "limit": 0.1,
+    "severity": "high",
+    "stimulus": "normal demand",
+    "candidates": ["actuator_control", "torque_allocator", "request_filter", "thermal_limiter"]
+  },
+  {
+    "id": "DVP-02",
+    "title": "Report a missing temperature signal",
+    "text": "By the third missing temperature sample, the diagnostic output must report a temperature signal fault.",
+    "platforms": ["ICE", "BEV", "REEV"],
+    "limit": 0,
+    "severity": "high",
+    "stimulus": "temperature dropout",
+    "candidates": ["diagnostic_manager", "temperature_monitor"]
+  },
+  {
+    "id": "DVP-03",
+    "title": "Limit torque during overheating",
+    "text": "After two settling samples above 103 degrees Celsius, delivered normalized torque must stay at or below 0.42.",
+    "platforms": ["ICE", "BEV", "REEV"],
+    "limit": 0.42,
+    "severity": "high",
+    "stimulus": "overtemperature",
+    "candidates": ["thermal_limiter", "temperature_monitor", "torque_allocator", "actuator_control"]
+  },
+  {
+    "id": "DVP-04",
+    "title": "Report available energy",
+    "text": "After initialization, the energy estimate must stay within 0.06 of the simulator reference.",
+    "platforms": ["ICE", "BEV", "REEV"],
+    "limit": 0.06,
+    "severity": "medium",
+    "stimulus": "energy depletion",
+    "candidates": ["energy_estimator", "generator_supervisor"]
+  },
+  {
+    "id": "DVP-05",
+    "title": "Start the range extender at low charge",
+    "text": "With available energy continuously below 0.30, the generator must be enabled by the third low-charge sample.",
+    "platforms": ["REEV"],
+    "limit": 0,
+    "severity": "high",
+    "stimulus": "low charge",
+    "candidates": ["generator_supervisor", "energy_estimator"]
+  },
+  {
+    "id": "DVP-06",
+    "title": "Clear the temperature warning after recovery",
+    "text": "After three consecutive valid cool samples following a temperature dropout, the diagnostic output must show normal status.",
+    "platforms": ["ICE", "BEV", "REEV"],
+    "limit": 0,
+    "severity": "medium",
+    "stimulus": "signal recovery",
+    "candidates": ["diagnostic_manager", "temperature_monitor"]
+  }
+]
