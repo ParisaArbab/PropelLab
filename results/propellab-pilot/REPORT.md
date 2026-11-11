@@ -1,4 +1,4 @@
-# PropelLab experiment report
+# Short report
 
 PropelLab tests vehicle-control software and ranks the likely faulty component when a requirement fails. This experiment asks how much telemetry an LLM needs to diagnose a failure.
 
